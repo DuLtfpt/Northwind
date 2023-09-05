@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: IDENTITY-SERVICE
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/northwind?allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: 123@123aA
+  jpa:
+    hibernate.ddl-auto: update
+    generate-ddl: true
+    show-sql: false
+
+server:
+  port: 8085
+
+eureka:
+  client:
+    service-url:
+      defaultZone : http://localhost:8761/eureka/
+
+token:
+  expire-duration: 86400000
+  secret-key: ff091e87fdb8b70142fe6e774d08a2e06c795250aba2fbfbb96e4e1101745f49
+
+service:
+  api-key:
+    auth: 689f6a627384c7dcb2dcc1487e540223e77bdf9dcd0d8be8a326eda65b0ce9a4
+
+request:
+  header:
+    api-key: x-api-key

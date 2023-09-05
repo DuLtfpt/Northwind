@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: order
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/order-service/**
+          filters:
+            - RouteValidatorFilter
+            - ApiAuthenticationFilter
+            - AuthenticationFilter
+
+        - id: identity-service
+          uri:  lb://IDENTITY-SERVICE
+          predicates:
+            - Path=/auth/**
+          filters:
+            - RouteValidatorFilter
+            - ApiAuthenticationFilter
+
+        - id: product
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/product-service/**
+          filters:
+            - RouteValidatorFilter
+            - ApiAuthenticationFilter
+            - AuthenticationFilter
+
+server:
+  port: 8080
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone : http://localhost:8761/eureka/
+
+service:
+  order-service:
+    api-key: 3eeb7e96e59ce40f9cb1a089daba079fd699f6867a30f6634af8570967b2375a
+  product-service:
+    api-key: a8792157cb4f27fb949c035f45518c61e884bb86e6f420204379c2baa8beb66e
+  auth:
+    domain:  lb://IDENTITY-SERVICE:8085
+    api-key: 689f6a627384c7dcb2dcc1487e540223e77bdf9dcd0d8be8a326eda65b0ce9a4
+
+request:
+  header:
+    api-key: x-api-key
+    uid: user-uid
+    role: user-role
